@@ -32,7 +32,7 @@ public class Main {
         else if (row1(matrix) && row2(matrix)) flag = true;
         else if (row1(matrix) && row3(matrix)) flag = true;
         else if (row2(matrix) && row3(matrix)) flag = true;
-        else if ((Integer.max(countO(matrix),countX(matrix)) - Integer.min(countO(matrix), countX(matrix))) >= 2 ) flag = true;
+        else if (irregularCount(matrix)) flag = true;
         return flag;
     }
 
@@ -145,23 +145,24 @@ public class Main {
         return flag;
     }
 
-
-    public static int countO(String[][] matrix) {
-        int count = 0;
+    public static boolean irregularCount(String[][] matrix) {
+        boolean flag = false;
+        int countO = 0;
+        int countX = 0;
         for (int i = 0; i < matrix.length; i ++)
             for (int j = 0; j < matrix[i].length; j++)
                 if(matrix[i][j].equals("o") || matrix[i][j].equals("O"))
-                    count++;
-        return count;
-    }
+                    countO++;
 
-    public static int countX(String[][] matrix) {
-        int count = 0;
         for (int i = 0; i < matrix.length; i ++)
             for (int j = 0; j < matrix[i].length; j++)
                 if(matrix[i][j].equals("x")  || matrix[i][j].equals("X"))
-                    count++;
-        return count;
+                    countX++;
+
+        if ((Integer.max(countO,countX) - Integer.min(countO, countX)) >= 2 )
+            flag = true;
+
+        return flag;
     }
 
 
