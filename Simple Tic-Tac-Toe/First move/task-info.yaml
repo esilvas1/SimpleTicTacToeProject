@@ -299,25 +299,8 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/5400#comment
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #1
-
-    Can&#39;t find two fields inside output
-
-    Please find below the output of your program during this failed test.
-    Note that the &#39;&gt;&#39; character indicates the beginning of the input line.
-
-    ---
-
-    Insert string of the game: &gt;
-    &gt; _XXOO_OX_
-    ---------
-    | _ X X |
-    | O O _ |
-    | O X _ |
-    ---------
-    Game not finished
-  time: "Fri, 16 Dec 2022 03:41:30 UTC"
+  message: Congratulations!
+  time: "Sat, 17 Dec 2022 12:54:48 UTC"
 record: -1
