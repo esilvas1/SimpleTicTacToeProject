@@ -6,30 +6,34 @@ public class Main {
     public static void main(String[] args) {
         // write your code here
         Scanner scanner = new Scanner(System.in);
-        String empty = " ";
-        System.out.print("Insert string of the game: >");
-        String string = scanner.next();
+        String string = "         ";
         String[][] matrix = printGame(string);
-        /*
-        if (isThereWinner(matrix) && !isGameImpossible(matrix)) System.out.println(winner(matrix) + " wins");
-        else if (isGameImpossible(matrix)) System.out.println("Impossible");
-        else if (withSpace(matrix)) System.out.println("Game not finished");
-        else if (isDraw(matrix)) System.out.println("Draw");
-         */
-        System.out.print("Enter coordinates (x y): >");
-        string = scanner.nextLine();
-        string = validateToNumbers(string);
-        string = validateToCoordiantes(string);
-        string = cellIsOccupied(string,matrix);
-        string = modifyMatrix(string,matrix);
-        matrix = printGame(string);
+        int index = 0;
+        while (index < 9) {
+            System.out.print("Enter coordinates (x y):/> ");
+            string = scanner.nextLine();
+            string = validateToNumbers(string);
+            string = validateToCoordiantes(string);
+            string = cellIsOccupied(string,matrix);
+            string = modifyMatrix(string,matrix,index);
+            matrix = printGame(string);
+            index++;
+
+            if (isThereWinner(matrix)) {System.out.println(winner(matrix) + " wins"); return;}
+            else if (withSpace(matrix)) ;
+            else if (isDraw(matrix)) {System.out.println("Draw"); return;}
+        }
+
+
     }
 
-    public static String modifyMatrix(String string, String[][] matrix) {
+    public static String modifyMatrix(String string, String[][] matrix, int index) {
         StringBuilder sb = new StringBuilder();
         int x = Integer.valueOf(String.valueOf(string.charAt(0))) - 1;
         int y = Integer.valueOf(String.valueOf(string.charAt(2))) - 1;
-        matrix[x][y] = "X";
+        if (index % 2 == 0) matrix[x][y] = "X";
+        else matrix[x][y] = "O";
+
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 sb.append(matrix[i][j]);
@@ -46,7 +50,6 @@ public class Main {
                 || !empty.equals(String.valueOf(string.charAt(1)))
                 || !Character.isDigit(string.charAt(2))) {
             System.out.println("You should enter numbers!");
-            //System.out.print("> ");
             string = scanner.nextLine();
         }
         return string;
@@ -59,7 +62,6 @@ public class Main {
                 || Integer.valueOf(String.valueOf(string.charAt(2))) <= 0
                 || Integer.valueOf(String.valueOf(string.charAt(2))) > 3) {
             System.out.println("Coordinates should be from 1 to 3!");
-            //System.out.print("> ");
             string = scanner.nextLine();
             string = validateToNumbers(string);
         }
@@ -70,7 +72,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int x = Integer.valueOf(String.valueOf(string.charAt(0))) - 1;
         int y = Integer.valueOf(String.valueOf(string.charAt(2))) - 1;
-        while (!(matrix[x][y].equals("_"))) {
+        while (!(matrix[x][y].equals(" "))) {
             System.out.println("This cell is occupied! Choose another one!");
             //System.out.print("> ");
             string = scanner.nextLine();
@@ -85,7 +87,7 @@ public class Main {
 
     public static boolean withSpace(String[][] matrix) {
         boolean flag = false;
-        final String space = "_";
+        final String space = " ";
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if (space.equals(matrix[i][j])) {
@@ -93,18 +95,6 @@ public class Main {
                 }
             }
         }
-        return flag;
-    }
-
-    public static boolean isGameImpossible(String[][] matrix) {
-        boolean flag = false;
-             if (column1(matrix) && column2(matrix)) flag = true;
-        else if (column1(matrix) && column3(matrix)) flag  = true;
-        else if (column2(matrix) && column3(matrix)) flag = true;
-        else if (row1(matrix) && row2(matrix)) flag = true;
-        else if (row1(matrix) && row3(matrix)) flag = true;
-        else if (row2(matrix) && row3(matrix)) flag = true;
-        else if (irregularCount(matrix)) flag = true;
         return flag;
     }
 
@@ -175,42 +165,50 @@ public class Main {
 
     public static boolean column1(String[][] matrix) {
         boolean flag = false;
-        if (matrix[0][0].equals(matrix[1][0]) && matrix[1][0].equals(matrix[2][0])) flag = true;
+        String space = " ";
+        if (matrix[0][0].equals(matrix[1][0]) && matrix[1][0].equals(matrix[2][0]) && !matrix[0][0].equals(space)) flag = true;
         return flag;
     }
     public static boolean column2(String[][] matrix) {
         boolean flag = false;
-        if (matrix[0][1].equals(matrix[1][1])  && matrix[1][1].equals(matrix[2][1])) flag = true;
+        String space = " ";
+        if (matrix[0][1].equals(matrix[1][1])  && matrix[1][1].equals(matrix[2][1]) && !matrix[0][1].equals(space)) flag = true;
         return flag;
     }
     public static boolean column3(String[][] matrix) {
         boolean flag = false;
-        if (matrix[0][2].equals(matrix[1][2]) && matrix[1][2].equals(matrix[2][2])) flag = true;
+        String space = " ";
+        if (matrix[0][2].equals(matrix[1][2]) && matrix[1][2].equals(matrix[2][2]) && !matrix[0][2].equals(space)) flag = true;
         return flag;
     }
     public static boolean row1(String[][] matrix) {
         boolean flag = false;
-        if (matrix[0][0].equals(matrix[0][1]) && matrix[0][1].equals(matrix[0][2])) flag = true;
+        String space = " ";
+        if (matrix[0][0].equals(matrix[0][1]) && matrix[0][1].equals(matrix[0][2]) && !matrix[0][0].equals(space)) flag = true;
         return flag;
     }
     public static boolean row2(String[][] matrix) {
         boolean flag = false;
-        if (matrix[1][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[1][2])) flag = true;
+        String space = " ";
+        if (matrix[1][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[1][2]) && !matrix[1][0].equals(space)) flag = true;
         return flag;
     }
     public static boolean row3(String[][] matrix) {
         boolean flag = false;
-        if (matrix[2][0].equals(matrix[2][1]) && matrix[2][1].equals(matrix[2][2])) flag = true;
+        String space = " ";
+        if (matrix[2][0].equals(matrix[2][1]) && matrix[2][1].equals(matrix[2][2]) && !matrix[2][0].equals(space)) flag = true;
         return flag;
     }
     public static boolean diagonal1(String[][] matrix) {
         boolean flag = false;
-        if (matrix[0][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[2][2])) flag = true;
+        String space = " ";
+        if (matrix[0][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[2][2]) && !matrix[0][0].equals(space)) flag = true;
         return flag;
     }
     public static boolean diagonal2(String[][] matrix) {
         boolean flag = false;
-        if (matrix[2][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[0][2])) flag = true;
+        String space = " ";
+        if (matrix[2][0].equals(matrix[1][1]) && matrix[1][1].equals(matrix[0][2]) && !matrix[2][0].equals(space)) flag = true;
         return flag;
     }
 
